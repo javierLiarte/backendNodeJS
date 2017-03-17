@@ -1,0 +1,24 @@
+{
+  "name": "backendnodejs",
+  "version": "1.0.0",
+  "description": "Backend con Node.js",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.15.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/javierLiarte/backendNodeJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/javierLiarte/backendNodeJS/issues"
+  },
+  "homepage": "https://github.com/javierLiarte/backendNodeJS#readme"
+}
