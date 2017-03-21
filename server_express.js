@@ -10,6 +10,8 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
+app.use('/events', require('./event_router'))
+
 app.post('/', (req, res) => {
     res.send('Hello World from method post');
 });
