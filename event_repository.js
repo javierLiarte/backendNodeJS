@@ -6,6 +6,17 @@ const ev3 = new event('ev3', 'This is last event', 'Last event for now', Date.no
 
 const events = [ev1, ev2, ev3]
 
-module.exports = function getAllEvents() {
-    return events
+function getAllEvents() {
+    return events;
+}
+
+function getEventById(id) {
+    return events.filter((item) => {
+        return item.id === id;
+    })[0];
+}
+
+module.exports =  {
+    getAllEvents,
+    getEventById
 }
