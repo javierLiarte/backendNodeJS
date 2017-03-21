@@ -27,8 +27,21 @@ function addEvent(newEvent) {
     return createdEvent;
 }
 
+function updateEvent(id, eventDetails) {
+    const retrievedEvent = getEventById(id)
+    if (retrievedEvent) {
+        retrievedEvent.title = eventDetails.title
+        retrievedEvent.description = eventDetails.description
+        retrievedEvent.date = eventDetails.date
+        return retrievedEvent
+    } else {
+        throw Error(`Event with id ${id} not found.`)
+    }
+}
+
 module.exports =  {
     getAllEvents,
     getEventById,
-    addEvent
+    addEvent,
+    updateEvent
 };

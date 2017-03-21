@@ -17,6 +17,16 @@ router.post('/', (req, res) => {
     }
 });
 
+router.put('/:id', (req, res) => {
+    try {
+        const updatedEvent = eventRepository.updateEvent(req.params.id, req.body)
+        res.json(updatedEvent)
+    } catch (err) {
+        console.log(`Error updating event: ${err.message}`)
+        res.status(400).json({ error: err.message })
+    }
+})
+
 router.get('/:id', (req, res) => {
     const event = eventRepository.getEventById(req.params.id);
 
