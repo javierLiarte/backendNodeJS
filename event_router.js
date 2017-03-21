@@ -7,6 +7,12 @@ router.get('/', (req, res) => {
     res.json(eventRepository.getAllEvents())
 })
 
+router.post('/', (req, res) => {
+    const newEvent = eventRepository.addEvent(req.body);
+
+    res.status(201).json(newEvent);
+});
+
 router.get('/:id', (req, res) => {
     const event = eventRepository.getEventById(req.params.id);
 

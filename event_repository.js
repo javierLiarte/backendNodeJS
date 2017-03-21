@@ -16,7 +16,16 @@ function getEventById(id) {
     })[0];
 }
 
+function addEvent(newEvent) {
+    const createdEvent = new event(newEvent.id, newEvent.title, newEvent.description, Date.now());
+
+    events.push(createdEvent);
+
+    return createdEvent;
+}
+
 module.exports =  {
     getAllEvents,
-    getEventById
-}
+    getEventById,
+    addEvent
+};
