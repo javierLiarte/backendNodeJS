@@ -17,6 +17,9 @@ function getEventById(id) {
 }
 
 function addEvent(newEvent) {
+    if (getEventById(newEvent.id)) {
+        throw Error('Event id already exists')
+    }
     const createdEvent = new event(newEvent.id, newEvent.title, newEvent.description, Date.now());
 
     events.push(createdEvent);

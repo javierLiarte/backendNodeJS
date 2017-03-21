@@ -8,9 +8,13 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const newEvent = eventRepository.addEvent(req.body);
-
-    res.status(201).json(newEvent);
+    try {
+        const newEvent = eventRepository.addEvent(req.body);
+        res.status(201).json(newEvent);
+    } catch (err) {
+        console.log(`Error creating event: ${err.message}`)
+        res.status(409).json({ error: err.message })
+    }
 });
 
 router.get('/:id', (req, res) => {
