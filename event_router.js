@@ -17,20 +17,28 @@ router.post('/', (req, res) => {
     }
 });
 
+router.get('/:id', (req, res) => {
+    const event = eventRepository.getEventById(req.params.id);
+
+    res.status(event ? 200 : 404).json(event ? event : { error: 'Not found' });
+})
+
 router.put('/:id', (req, res) => {
     try {
-        const updatedEvent = eventRepository.updateEvent(req.params.id, req.body)
-        res.json(updatedEvent)
+        res.json(eventRepository.updateEvent(req.params.id, req.body))
     } catch (err) {
         console.log(`Error updating event: ${err.message}`)
         res.status(400).json({ error: err.message })
     }
 })
 
-router.get('/:id', (req, res) => {
-    const event = eventRepository.getEventById(req.params.id);
-
-    res.status(event ? 200 : 404).json(event ? event : { error: 'Not found' });
+router.delete('/:id', (req, res) => {
+    try {
+        res.status(202).json(eventRepository.deleteEvent(req.params.id))
+    } catch (err) {
+        console.log(`Error deleting event: ${err.message}`)
+        res.status(400).json({ error: err.message })
+    }
 })
 
 module.exports = router

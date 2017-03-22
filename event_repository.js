@@ -4,7 +4,7 @@ const ev1 = new event('ev1', 'This is 1st event', 'Short event 1 desciption', Da
 const ev2 = new event('ev2', 'This is 2nd event', 'Description of 2nd event', Date.now())
 const ev3 = new event('ev3', 'This is last event', 'Last event for now', Date.now())
 
-const events = [ev1, ev2, ev3]
+let events = [ev1, ev2, ev3]
 
 function getAllEvents() {
     return events;
@@ -39,9 +39,22 @@ function updateEvent(id, eventDetails) {
     }
 }
 
+function deleteEvent(id) {
+    const retrievedEvent = getEventById(id)
+    if (retrievedEvent) {
+        events = events.filter(item => {
+            return item.id != id
+        })
+        return events
+    } else {
+        throw Error(`Event with id ${id} not found.`)
+    }
+}
+
 module.exports =  {
     getAllEvents,
     getEventById,
     addEvent,
-    updateEvent
+    updateEvent,
+    deleteEvent
 };
