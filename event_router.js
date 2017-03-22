@@ -10,44 +10,41 @@ router.get('/', (req, res) => {
         })
 })
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     eventRepository.addEvent(req.body)
         .then(createdEvent => {
             res.status(201).json(createdEvent)
-        }).catch(err => {
-            console.log(`Error creating event: ${err.message}`)
-            res.status(409).json({ error: err.message })
-    })
+        })
+        .catch(next)
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
     eventRepository.getEventById(req.params.id)
         .then(retrievedEvent => {
             res.json(retrievedEvent);
         })
-        .catch(err => {
-            res.status(404).json({ error: err.message });
-        })
+        .catch(next)
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', (req, res, next) => {
     eventRepository.updateEvent(req.params.id, req.body)
         .then(updatedEvent => {
             res.json(updatedEvent)
-        }).catch(err => {
-            console.log(`Error updating event: ${err.message}`)
-            res.status(400).json({ error: err.message })
-    })
+        })
+        .catch(next)
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res, next) => {
     eventRepository.deleteEvent(req.params.id)
         .then(events => {
             res.status(202).json(events)
-        }).catch(err => {
-            console.log(`Error deleting event: ${err.message}`)
-            res.status(400).json({ error: err.message })
-    })
+        })
+        .catch(next)
+})
+
+router.use(function (err, req, res, next) {
+    console.log(`Error in method ${req.method}: ${err.message}`)
+    res.status(err.status).json({ error: err.message });
 })
 
 module.exports = router

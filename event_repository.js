@@ -20,7 +20,7 @@ function getEventById(id) {
         if (filteredEvent) {
             resolve(filteredEvent)
         } else {
-            reject(new Error(`Event with id ${id} not found.`))
+            reject({status: 404, message: `Event with id ${id} not found.`})
         }
     })
 }
@@ -29,7 +29,7 @@ function addEvent(newEvent) {
     return new Promise((resolve, reject) => {
         getEventById(newEvent.id)
             .then(existingEvent => {
-            reject(new Error(`Event id ${newEvent.id} already exists`))
+            reject({status: 409, message: `Event id ${newEvent.id} already exists`})
         }).catch(err => {
             const createdEvent = new event(newEvent.id, newEvent.title, newEvent.description, Date.now());
             events.push(createdEvent);
@@ -48,7 +48,7 @@ function updateEvent(id, eventDetails) {
                 resolve(retrievedEvent)
             })
             .catch(err => {
-                reject(err)
+                reject({status: 400, message: err.message })
             })
     })
 }
@@ -62,7 +62,7 @@ function deleteEvent(id) {
                 })
                 resolve(events)
             }).catch(err => {
-                reject(err)
+                reject({status: 400, message: err.message })
         })
     })
 }
