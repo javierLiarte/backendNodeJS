@@ -7,7 +7,9 @@ const ev3 = new event('ev3', 'This is last event', 'Last event for now', Date.no
 let events = [ev1, ev2, ev3]
 
 function getAllEvents() {
-    return events;
+    return new Promise((resolve, reject) => {
+        resolve(events);
+    });
 }
 
 function getEventById(id) {

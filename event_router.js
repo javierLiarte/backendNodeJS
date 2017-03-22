@@ -4,7 +4,10 @@ const router = express.Router()
 const eventRepository = require('./event_repository');
 
 router.get('/', (req, res) => {
-    res.json(eventRepository.getAllEvents())
+    eventRepository.getAllEvents()
+        .then((events) => {
+            res.status(200).json(events);
+        })
 })
 
 router.post('/', (req, res) => {
