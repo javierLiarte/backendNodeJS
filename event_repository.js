@@ -13,44 +13,58 @@ function getAllEvents() {
 }
 
 function getEventById(id) {
-    return events.filter((item) => {
-        return item.id === id;
-    })[0];
+    return new Promise((resolve, reject) => {
+        const filteredEvent = events.filter((item) => {
+            return item.id === id;
+        })[0];
+        if (filteredEvent) {
+            resolve(filteredEvent)
+        } else {
+            reject(new Error(`Event with id ${id} not found.`))
+        }
+    })
 }
 
 function addEvent(newEvent) {
-    if (getEventById(newEvent.id)) {
-        throw Error('Event id already exists')
-    }
-    const createdEvent = new event(newEvent.id, newEvent.title, newEvent.description, Date.now());
-
-    events.push(createdEvent);
-
-    return createdEvent;
+    return new Promise((resolve, reject) => {
+        getEventById(newEvent.id)
+            .then(existingEvent => {
+            reject(new Error(`Event id ${newEvent.id} already exists`))
+        }).catch(err => {
+            const createdEvent = new event(newEvent.id, newEvent.title, newEvent.description, Date.now());
+            events.push(createdEvent);
+            resolve(createdEvent);
+        })
+    })
 }
 
 function updateEvent(id, eventDetails) {
-    const retrievedEvent = getEventById(id)
-    if (retrievedEvent) {
-        retrievedEvent.title = eventDetails.title
-        retrievedEvent.description = eventDetails.description
-        retrievedEvent.date = eventDetails.date
-        return retrievedEvent
-    } else {
-        throw Error(`Event with id ${id} not found.`)
-    }
+    return new Promise((resolve, reject) => {
+        getEventById(id)
+            .then(retrievedEvent => {
+                retrievedEvent.title = eventDetails.title
+                retrievedEvent.description = eventDetails.description
+                retrievedEvent.date = eventDetails.date
+                resolve(retrievedEvent)
+            })
+            .catch(err => {
+                reject(err)
+            })
+    })
 }
 
 function deleteEvent(id) {
-    const retrievedEvent = getEventById(id)
-    if (retrievedEvent) {
-        events = events.filter(item => {
-            return item.id != id
+    return new Promise((resolve, reject) => {
+        getEventById(id)
+            .then(retrievedEvent => {
+                events = events.filter(item => {
+                    return item.id != id
+                })
+                resolve(events)
+            }).catch(err => {
+                reject(err)
         })
-        return events
-    } else {
-        throw Error(`Event with id ${id} not found.`)
-    }
+    })
 }
 
 module.exports =  {
