@@ -16,7 +16,7 @@ function getEventById(id) {
     return new Promise((resolve, reject) => {
         const filteredEvent = events.find((item) => {
             return item.id === id;
-        })[0];
+        });
         if (filteredEvent) {
             resolve(filteredEvent)
         } else {
